@@ -1,5 +1,6 @@
 import {App} from 'vue'
 import menu from './src/index.vue'
+import infiniteMenu from './src/menu'
 
 // 让这个组件可以通过use的形式使用
 export default{
@@ -7,5 +8,6 @@ export default{
   // 要么函数叫install，要么对象里面有个属性叫install
   install(app: App) {
     app.component('my-menu', menu)
+    app.component('infinite-menu', infiniteMenu)
   }
 }
