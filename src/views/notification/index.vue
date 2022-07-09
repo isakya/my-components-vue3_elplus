@@ -13,13 +13,16 @@
   <br />
   <notification icon="ChatDotRound" :value="50" :isDot="true">
     <template #default>
-      <list />
+      <my-list :list="list" :actions="actions" />
     </template>
   </notification>
 </template>
 
 <script setup lang="ts">
+import { list, actions } from './data'
 import { reactive, toRefs, ref } from "vue"
+console.log(list);
+
 
 </script>
 

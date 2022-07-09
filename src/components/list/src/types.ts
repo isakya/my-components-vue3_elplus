@@ -8,6 +8,9 @@ export interface ListItem {
   desc?: string,
   // 事件
   time?: string,
+  // 标签名称
+  tag?: string, 
+  // 标签样式类型
   tagType?: '' | 'success' | 'info' | 'warning' | 'danger'
 }
 
