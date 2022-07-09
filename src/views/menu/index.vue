@@ -1,5 +1,7 @@
 <template>
-  <my-menu :data="data1"></my-menu>
+  <div style="width:200px">
+    <my-menu :data="data1" defaultActive="2" :router="true" active-text-color="red"></my-menu>
+  </div>
 </template>
 
 <script setup lang="ts">
