@@ -5,7 +5,7 @@
   <div class="my-choose-icon-dialog-body-height">
     <el-dialog :title="title" v-model="dialogVisible">
       <div class="container">
-        <div class="item" v-for="(item, index) in Object.keys(ElIcon)" :key="index">
+        <div class="item" v-for="(item, index) in Object.keys(ElIcon)" :key="index" @click="clickItem(item)">
           <div class="text">
             <component :is="`el-icon-${toLine(item)}`"></component>
           </div>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import * as ElIcon from '@element-plus/icons-vue'
 import { toLine } from '../../../utils'
+import { useCopy } from '../../../hooks/useCopy'
 import { ref, watch } from "vue"
 
 let props = defineProps<{
@@ -32,9 +33,19 @@ let dialogVisible = ref<boolean>(props.visible)
 
 let emits = defineEmits(['update:visible'])
 
+// 点击按钮显示弹出框
 let hdClick = () => {
   // 需要修改父组件的数据
   emits('update:visible', !props.visible)
+}
+
+// 点击图标
+let clickItem = (item: string) => {
+  let text = `<el-icon-${toLine(item)} />`
+  // 复制文本
+  useCopy(text)
+  // 关闭弹框
+  dialogVisible.value = false
 }
 
 // 监听visible的变化
