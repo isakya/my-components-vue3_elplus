@@ -2,10 +2,21 @@
   <el-button @click="hdClick" type="primary">
     <slot></slot>
   </el-button>
-  <el-dialog :title="title" v-model="dialogVisible">111</el-dialog>
+  <el-dialog :title="title" v-model="dialogVisible">
+    <div class="container">
+      <div class="item" v-for="(item, index) in Object.keys(ElIcon)" :key="index">
+        <div class="text">
+          <component :is="`el-icon-${toLine(item)}`"></component>
+        </div>
+        <div class="icon">{{ item }}</div>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
+import * as ElIcon from '@element-plus/icons-vue'
+import { toLine } from '../../../utils'
 import { ref, watch } from "vue"
 
 let props = defineProps<{
@@ -35,4 +46,34 @@ watch(() => dialogVisible.value, val => {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.item {
+  // 每四个为一行
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  height: 70px;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.icon {
+  flex: 1;
+}
+
+svg {
+  width: 2em;
+  height: 2em;
+}
 </style>  
