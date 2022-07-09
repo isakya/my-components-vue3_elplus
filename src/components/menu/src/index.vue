@@ -69,6 +69,8 @@ let props = defineProps({
 }
 
 svg {
-  margin-right: 10px;
+  margin-right: 4px;
+  width: 1em;
+  height: 1em;
 }
 </style>
