@@ -72,8 +72,4 @@ let data = [
 </script>
 
 <style lang="scss" scoped>
-// 如果菜单没有收缩就定为宽度200
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-}
 </style>
