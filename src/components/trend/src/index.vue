@@ -5,9 +5,11 @@
       <div v-else>{{ text }}</div>
     </div>
     <div class="icon">
-      <el-icon-arrowup :style="{ color: !reverseColor ? upIconColor : '#52c41a' }" v-if="type === 'up'">
-      </el-icon-arrowup>
-      <el-icon-arrowdown :style="{ color: !reverseColor ? downIconColor : '#f5222d' }" v-else></el-icon-arrowdown>
+      <component :is="`el-icon-${icon?.toLocaleLowerCase() || 'arrowup'}`"
+        :style="{ color: !reverseColor ? upIconColor : '#52c41a' }" v-if="type === 'up'"></component>
+      <component :is="`el-icon-${icon?.toLocaleLowerCase() || 'arrowdown'}`"
+        :style="{ color: !reverseColor ? downIconColor : '#f5222d' }" v-else>
+      </component>
     </div>
   </div>
 </template>
@@ -28,6 +30,10 @@ let props = defineProps({
   text: {
     type: String,
     default: 'title'
+  },
+  // 自定义图标
+  icon: {
+    type: String,
   },
   // 颜色反转,只在默认颜色下生效，自定义颜色不生效
   reverseColor: {
