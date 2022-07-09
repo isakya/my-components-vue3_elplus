@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { reactive, toRefs, ref } from "vue"
-import ChooseArea from '../../components/chooseArea/src/index.vue'
 let changeArea = (val: any) => {
   console.log(val);
 

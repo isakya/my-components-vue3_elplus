@@ -7,8 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import ChooseIcon from '../../components/chooseIcon/src/index.vue'
-import { reactive, toRefs, ref } from "vue"
+import { ref } from "vue"
 let visible = ref<boolean>(false)
 
 
