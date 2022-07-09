@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div style="width:200px">
+    <div style="width:200px; height:70vh;">
       <el-divider>二级菜单</el-divider>
       <br />
       <my-menu :data="data1" defaultActive="2" :router="true" active-text-color="red"></my-menu>
     </div>
-    <div style="width:300px">
+    <div style="width:300px; height:70vh">
       <el-divider>多级菜单</el-divider>
       <br />
       <infinite-menu :data="data2" defaultActive="2" active-text-color="red"></infinite-menu>
@@ -82,6 +82,8 @@ let data2 = [
 
 <style lang="scss" scoped>
 .container {
+  background-color: #eee;
+  height: 100%;
   display: flex;
   justify-content: space-around;
 }
