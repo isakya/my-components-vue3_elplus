@@ -16,6 +16,11 @@
       <trend text="销售额" type="down" downIconColor="#000"></trend>
     </div>
   </div>
+  <br>
+  <trend>销售额</trend>
+  <br>
+  <trend text="营业额" reverseColor></trend>
+  <trend type="down" reverseColor text="销售额"></trend>
 </template>
 
 <script setup lang="ts">
