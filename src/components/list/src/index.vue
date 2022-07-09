@@ -3,7 +3,8 @@
     <el-tabs>
       <el-tab-pane v-for="(item, index) in list" :key="index" :label="item.title">
         <el-scrollbar max-height="300px">
-          <div class="container" v-for="(item1, index1) in item.content" :key="index1">
+          <div class="container" @click="clickItem(item1, index1)" v-for="(item1, index1) in item.content"
+            :key="index1">
             <div class="avatar" v-if="item1.avatar">
               <el-avatar size="small" :src="item1.avatar"></el-avatar>
             </div>
@@ -18,7 +19,8 @@
           </div>
         </el-scrollbar>
         <div class="actions">
-          <div class="a-item" :class="{ 'border': i !== actions.length }" v-for="(action, i) in actions" :key="i">
+          <div class="a-item" @click="clickAction(action, i)" :class="{ 'border': i !== actions.length }"
+            v-for="(action, i) in actions" :key="i">
             <div class="a-icon" v-if="action.icon">
               <component :is="`el-icon-${toLine(action.icon)}`"></component>
             </div>
@@ -32,7 +34,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue"
-import { ListOptions, ActionOptions } from './types'
+import { ListOptions, ActionOptions, ListItem } from './types'
 import { toLine } from '../../../utils'
 let props = defineProps({
   // 列表内容
@@ -46,6 +48,15 @@ let props = defineProps({
     default: () => []
   }
 })
+
+let emits = defineEmits(['clickItem', 'clickAction'])
+
+let clickItem = (item: ListItem, index: number) => {
+  emits('clickItem', { item, index })
+}
+let clickAction = (item: ActionOptions, index: number) => {
+  emits('clickAction', { item, index })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -94,6 +105,7 @@ let props = defineProps({
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     .a-icon {
       margin-right: 4px;

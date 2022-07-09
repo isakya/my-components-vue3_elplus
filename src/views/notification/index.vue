@@ -13,7 +13,7 @@
   <br />
   <notification icon="ChatDotRound" :value="50" :isDot="true">
     <template #default>
-      <my-list :list="list" :actions="actions" />
+      <my-list :list="list" :actions="actions" @clickItem="clickItem" @clickAction="clickAction" />
     </template>
   </notification>
 </template>
@@ -23,6 +23,14 @@ import { list, actions } from './data'
 import { reactive, toRefs, ref } from "vue"
 console.log(list);
 
+let clickItem = (val: any) => {
+  console.log(val);
+
+}
+let clickAction = (val: any) => {
+  console.log(val);
+
+}
 
 </script>
 
