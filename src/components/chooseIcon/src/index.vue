@@ -2,16 +2,18 @@
   <el-button @click="hdClick" type="primary">
     <slot></slot>
   </el-button>
-  <el-dialog :title="title" v-model="dialogVisible">
-    <div class="container">
-      <div class="item" v-for="(item, index) in Object.keys(ElIcon)" :key="index">
-        <div class="text">
-          <component :is="`el-icon-${toLine(item)}`"></component>
+  <div class="my-choose-icon-dialog-body-height">
+    <el-dialog :title="title" v-model="dialogVisible">
+      <div class="container">
+        <div class="item" v-for="(item, index) in Object.keys(ElIcon)" :key="index">
+          <div class="text">
+            <component :is="`el-icon-${toLine(item)}`"></component>
+          </div>
+          <div class="icon">{{ item }}</div>
         </div>
-        <div class="icon">{{ item }}</div>
       </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +73,7 @@ watch(() => dialogVisible.value, val => {
 .icon {
   flex: 1;
 }
+
 
 svg {
   width: 2em;
