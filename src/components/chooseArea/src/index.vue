@@ -17,6 +17,17 @@
 import allAreas from './lib/pca-code.json'
 import { ref, watch } from "vue"
 
+export interface AreaItem {
+  name: string,
+  code: string,
+  children?: AreaItem[]
+}
+
+export interface Data {
+  name: string,
+  code: string
+}
+
 // 下拉框选择省份的值
 let province = ref<string>('')
 // 下拉框选择城市的值
@@ -30,10 +41,10 @@ let areas = ref(allAreas)
 
 
 // 城市下拉框所有的值
-let selectCity = ref<any[]>([])
+let selectCity = ref<AreaItem[]>([])
 
 // 区域下拉框所有的值
-let selectArea = ref<any[]>([])
+let selectArea = ref<AreaItem[]>([])
 
 // 监听选择省份
 watch(() => province.value, val => {
@@ -48,11 +59,38 @@ watch(() => province.value, val => {
 // 监听选择城市
 watch(() => city.value, val => {
   if (val) {
-    let area = selectCity.value.find(item => item.code === city.value)!.children
+    let area = selectCity.value.find(item => item.code === city.value)!.children!
     selectArea.value = area
-    area.value = ''
+  }
+  area.value = ''
+})
+
+// 监听选择区域
+watch(() => area.value, val => {
+  if (val) {
+    let provinceData: Data = {
+      code: province.value,
+      name: province.value && allAreas.find(item => item.code === province.value)!.name
+    }
+    let cityData: Data = {
+      code: city.value,
+      name: city.value && selectCity.value.find(item => item.code === city.value)!.name
+    }
+    let areaData: Data = {
+      code: val,
+      name: val && selectArea.value.find(item => item.code === val)!.name
+    }
+    emits('change', {
+      province: provinceData,
+      city: cityData,
+      area: areaData
+    })
   }
 })
+
+// 分发事件给父组件
+let emits = defineEmits(['change'])
+
 
 </script>
 
