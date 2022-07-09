@@ -9,6 +9,13 @@
   <br />
   <br />
   <notification icon="ChatDotRound" :value="50" :isDot="true" />
+  <br />
+  <br />
+  <notification icon="ChatDotRound" :value="50" :isDot="true">
+    <template #default>
+      <list />
+    </template>
+  </notification>
 </template>
 
 <script setup lang="ts">
