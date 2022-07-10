@@ -2,8 +2,14 @@
   <el-form v-if="model" :validate-on-rule-change="false" :model="model" :rules="rules" v-bind="$attrs">
     <template v-for="(item, index) in options" :key="index">
       <el-form-item v-if="!item.children || !item.children!.length" :prop="item.prop" :label="item.label">
-        <component v-model="model[item.prop!]" :placeholder="item.placeholder" v-bind="item.attrs"
-          :is="`el-${item.type}`"></component>
+        <component v-if="item.type !== 'upload'" v-model="model[item.prop!]" :placeholder="item.placeholder"
+          v-bind="item.attrs" :is="`el-${item.type}`"></component>
+        <el-upload :on-preview="onPreview" :on-remove="onRemove" :on-success="onSuccess" :on-error="onError"
+          :on-progress="onProgress" :on-change="onChange" :before-remove="beforeRemove" :before-upload="beforeUpload"
+          :http-request="httpRequest" :on-exceed="onExceed" v-bind="item.uploadAttrs" action="" v-else>
+          <slot name="uploadArea"></slot>
+          <slot name="uploadTip"></slot>
+        </el-upload>
       </el-form-item>
       <el-form-item v-if="item.children && item.children.length" :prop="item.prop" :label="item.label">
         <component v-model="model[item.prop!]" v-bind="item.attrs" :placeholder="item.placeholder"
@@ -30,6 +36,19 @@ let props = defineProps({
   }
 })
 
+let emits = defineEmits([
+  'on-preview',
+  'on-remove',
+  'on-success',
+  'on-error',
+  'on-progress',
+  'on-change',
+  'before-remove',
+  'before-upload',
+  'http-request',
+  'on-exceed'
+])
+
 
 let model = ref<any>(null)
 let rules = ref<any>(null)
@@ -55,6 +74,59 @@ onMounted(() => {
 watch(() => props.options, () => {
   initForm()
 }, { deep: true })
+
+
+// 上传组件的所有方法
+// :on-preview="onPreview" 
+// :on-remove="onRemove" 
+// :on-success="onSuccess" 
+// :on-error="onError"
+// :on-progress="onProgress"
+// :on-change="onChange"
+// :before-remove="beforeRemove"
+// :before-upload="beforeUpload"
+// :http-request="httpRequest"
+// :on-exceed="onExceed"
+
+let onPreview = (file: any) => {
+  emits('on-preview', file)
+}
+let onRemove = (file: any, fileList: any) => {
+  emits('on-remove', { file, fileList })
+}
+let onSuccess = (response: any, file: any, fileList: any) => {
+  emits('on-success', { response, file, fileList })
+
+}
+let onError = (err: any, file: any, fileList: any) => {
+  emits('on-error', { err, file, fileList })
+
+}
+let onProgress = (event: any, file: any, fileList: any) => {
+  emits('on-progress', { event, file, fileList })
+
+}
+let onChange = (file: any, fileList: any) => {
+  emits('on-change', { file, fileList })
+
+}
+let beforeRemove = (file: any) => {
+  emits('before-remove', file)
+
+}
+let beforeUpload = (file: any, fileList: any) => {
+  emits('before-upload', { file, fileList })
+
+}
+let httpRequest = (file: any) => {
+  emits('http-request', file)
+
+}
+let onExceed = (file: any, fileList: any) => {
+  emits('on-exceed', { file, fileList })
+
+}
+
 </script>
 
 <style lang="scss" scoped>
