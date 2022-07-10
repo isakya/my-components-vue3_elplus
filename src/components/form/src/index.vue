@@ -6,7 +6,8 @@
           v-bind="item.attrs" :is="`el-${item.type}`"></component>
         <el-upload :on-preview="onPreview" :on-remove="onRemove" :on-success="onSuccess" :on-error="onError"
           :on-progress="onProgress" :on-change="onChange" :before-remove="beforeRemove" :before-upload="beforeUpload"
-          :http-request="httpRequest" :on-exceed="onExceed" v-bind="item.uploadAttrs" action="" v-else>
+          :http-request="httpRequest" :on-exceed="onExceed" v-bind="item.
+          uploadAttrs" v-else>
           <slot name="uploadArea"></slot>
           <slot name="uploadTip"></slot>
         </el-upload>
