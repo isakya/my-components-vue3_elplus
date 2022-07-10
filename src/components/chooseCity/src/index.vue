@@ -23,33 +23,58 @@
           </el-select>
         </el-col>
       </el-row>
-      <div class="city">
-        <!-- <div v-for="(value, key) in cities">{{ key }}</div> -->
-        <!-- 字母区域 -->
-        <div class="city-item" @click="clickChat(item)" v-for="(item, index) in Object.keys(cities)">{{ item }}</div>
-      </div>
-      <el-scrollbar max-height="300px">
-        <template v-for="(value, key) in cities" :key="key">
-          <el-row style="margin-bottom:10px" :id="key">
-            <el-col :span="2">{{ key }}:</el-col>
-            <el-col :span="22" class="city-name">
-              <div @click="clickItem(item)" class="city-name-item" v-for="item in value" :key="item.id">
-                <div>{{ item.name }}</div>
-              </div>
-            </el-col>
-          </el-row>
-        </template>
-      </el-scrollbar>
+      <template v-if="radioValue === '按城市'">
+        <div class="city">
+          <!-- <div v-for="(value, key) in cities">{{ key }}</div> -->
+          <!-- 字母区域 -->
+          <div class="city-item" @click="clickChat(item)" v-for="(item, index) in Object.keys(cities)">{{ item }}</div>
+        </div>
+        <el-scrollbar max-height="300px">
+          <template v-for="(value, key) in cities" :key="key">
+            <el-row style="margin-bottom:10px" :id="key">
+              <el-col :span="2">{{ key }}:</el-col>
+              <el-col :span="22" class="city-name">
+                <div @click="clickItem(item)" class="city-name-item" v-for="item in value" :key="item.id">
+                  <div>{{ item.name }}</div>
+                </div>
+              </el-col>
+            </el-row>
+          </template>
+        </el-scrollbar>
+      </template>
+      <template v-else>
+        <div class="province">
+          <div class="province-item" v-for="(item, index) in Object.keys(provinces)" :key="index"
+            @click="clickChat(item)">
+            {{ item }}
+          </div>
+        </div>
+        <el-scrollbar max-height="300px">
+          <template v-for="(item, index) in Object.values(provinces)" :key="index">
+            <template v-for="(item1, index1) in item" :key="index1">
+              <el-row style="margin-bottom:10px" :id="item1.id">
+                <el-col :span="3">{{ item1.name }}:</el-col>
+                <el-col :span="21" class="province-name">
+                  <div class="province-name-item" v-for="(item2, index2) in item1.data" :key="index2">
+                    <div @click="clickProvince(item2)">{{ item2 }}</div>
+                  </div>
+                </el-col>
+              </el-row>
+            </template>
+          </template>
+        </el-scrollbar>
+      </template>
     </div>
   </el-popover>
 </template>
 
 <script setup lang="ts">
 import city from '../lib/city'
+import province from '../lib/province.json'
 import { City } from './types'
 import { reactive, toRefs, ref } from "vue"
 // 分发事件
-let emits = defineEmits(['change'])
+let emits = defineEmits(['changeCity', 'changeProvince'])
 
 // 点击字母跳转到指定区域
 let clickChat = (item: string) => {
@@ -60,6 +85,8 @@ let clickChat = (item: string) => {
 }
 
 
+
+
 // 最终选择的结果
 let result = ref<string>('请选择')
 // 控制弹出层的显示（但el-plus v-model:visible有bug目前不生效）
@@ -68,8 +95,10 @@ let visible = ref<boolean>(false)
 let radioValue = ref<string>('按城市')
 // 下拉框的值 搜索下拉框
 let selectValue = ref<string>('')
-// 所有城市的值
+// 所有城市的数据
 let cities = ref(city.cities)
+// 所有省份的数据
+let provinces = ref(province)
 
 // 点击每个城市
 let clickItem = (item: City) => {
@@ -77,7 +106,16 @@ let clickItem = (item: City) => {
   result.value = item.name
   // 关闭弹出层
   visible.value = false
-  emits('change', item)
+  emits('changeCity', item)
+}
+
+// 点击每个省份
+let clickProvince = (item: string) => {
+  // 给结果赋值
+  result.value = item
+  // 关闭弹出层
+  visible.value = false
+  emits('changeProvince', item)
 }
 
 // 下拉框显示城市数据
@@ -131,7 +169,8 @@ svg {
   padding: 6px;
 }
 
-.city {
+.city,
+.province {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -139,7 +178,8 @@ svg {
   margin-bottom: 10px;
 
 
-  &-item {
+  .city-item,
+  .province-item {
     padding: 3px 6px;
     margin-right: 8px;
     border: 1px solid #eee;
@@ -149,12 +189,14 @@ svg {
   }
 }
 
-.city-name {
+.city-name,
+.province-name {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 
-  &-item {
+  .city-name-item,
+  .province-name-item {
     margin-right: 6px;
     margin-bottom: 6px;
     cursor: pointer;

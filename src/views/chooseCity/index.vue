@@ -1,10 +1,18 @@
 <template>
-  <chooseCity @change="getCity"></chooseCity>
+  <chooseCity @changeCity="getCity" @changeProvince="getProvince"></chooseCity>
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, ref } from "vue"
-let getCity = (val: string) => {
+interface City {
+  id: number,
+  // 拼音
+  spell: string,
+  name: string
+}
+let getCity = (val: City) => {
+  console.log(val)
+}
+let getProvince = (val: string) => {
   console.log(val)
 }
 </script>

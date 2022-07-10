@@ -4,3 +4,9 @@ export interface City {
   spell: string,
   name: string
 }
+
+export interface Province {
+  name: string,
+  data: string[],
+  id?: string
+}
