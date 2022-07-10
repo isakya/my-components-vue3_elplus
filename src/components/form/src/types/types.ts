@@ -1,6 +1,6 @@
 // 可配置的表单
 
-import {RuleItem} from './rule'
+import{RuleItem} from './rule'
 
 // 表单每一项的配置选项
 export interface FormOptions {
@@ -13,11 +13,11 @@ export interface FormOptions {
   // 表单项的标识
   prop?: string,
   // 表单项的验证规则
-  rules?: RuleItem ,
+  rules?: RuleItem[],
   // 表单项的占位符
   placeholder?: string
   // 表单元素特有的属性，暂时给any类型
-  attrs: {
+  attrs?: {
     clearable?: boolean,
     showPassword?: boolean,
     disabled?: boolean, 
