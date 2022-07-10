@@ -1,8 +1,8 @@
 <template>
   <!-- v-model:visible="visible" 不生效 -->
-  <el-popover placement="bottom-start" :width="430" trigger="hover">
+  <el-popover v-model:visible="visible" placement="bottom-start" :width="430" trigger="click">
     <template #reference>
-      <div class="result">
+      <div @click="hdToggle" class="result">
         <div>{{ result }}</div>
         <div>
           <el-icon-arrowdown :class="{ 'rolate': visible }"></el-icon-arrowdown>
@@ -18,8 +18,9 @@
           </el-radio-group>
         </el-col>
         <el-col :offset="1" :span="15">
-          <el-select v-model="selectValue" filterable placeholder="Select">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-select @change="changeSelect" placeholder="请搜索城市" v-model="selectValue" filterable
+            :filter-method="filterMethod">
+            <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-col>
       </el-row>
@@ -72,7 +73,7 @@
 import city from '../lib/city'
 import province from '../lib/province.json'
 import { City } from './types'
-import { reactive, toRefs, ref } from "vue"
+import { ref, onMounted } from "vue"
 // 分发事件
 let emits = defineEmits(['changeCity', 'changeProvince'])
 
@@ -84,21 +85,74 @@ let clickChat = (item: string) => {
   if (el) el.scrollIntoView()
 }
 
+// 获取
+onMounted(() => {
+  // 获取下拉框的城市数据
+  let values = Object.values(cities.value).flat(2)
+  options.value = values
+  allCity.value = values
+})
+
+// 用点击事件来代替 el 的 v-model:visible 失效bug
+let hdToggle = () => {
+  visible.value = !visible.value
+}
+
+// 自定义搜索过滤
+let filterMethod = (val: string) => {
+  let values = Object.values(cities.value).flat(2)
+  if (val === '') {
+    options.value = values
+  } else {
+    if (radioValue.value === '按城市') {
+      // 中文和拼音一起过滤
+      options.value = values.filter(item => {
+        return item.name.includes(val) || item.spell.includes(val)
+      })
+    } else {
+      // 中文过滤
+      options.value = values.filter(item => {
+        return item.name.includes(val)
+      })
+    }
+  }
+  options.value
+}
+
+// 下拉框选择
+let changeSelect = (val: number) => {
+  let city = allCity.value.find(item => item.id === val)!
+  result.value = city.name
+  if (radioValue.value === '按城市') {
+    emits('changeCity', city)
+    // 关闭弹出层
+    visible.value = false
+  } else {
+    emits('changeProvince', city.name)
+    // 关闭弹出层
+    visible.value = false
+  }
+}
+
 
 
 
 // 最终选择的结果
 let result = ref<string>('请选择')
 // 控制弹出层的显示（但el-plus v-model:visible有bug目前不生效）
-let visible = ref<boolean>(false)
+let visible = ref<boolean>(true)
 // 单选框的值 按城市还是省份选择
 let radioValue = ref<string>('按城市')
 // 下拉框的值 搜索下拉框
 let selectValue = ref<string>('')
+// 下拉框显示城市数据
+let options = ref<City[]>([])
 // 所有城市的数据
 let cities = ref(city.cities)
 // 所有省份的数据
 let provinces = ref(province)
+// 所有的城市数据
+let allCity = ref<City[]>([])
 
 // 点击每个城市
 let clickItem = (item: City) => {
@@ -118,29 +172,7 @@ let clickProvince = (item: string) => {
   emits('changeProvince', item)
 }
 
-// 下拉框显示城市数据
-const options = ref([
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-])
+
 </script>
 
 <style lang="scss" scoped>
