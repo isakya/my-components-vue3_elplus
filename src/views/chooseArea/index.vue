@@ -5,10 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, ref } from "vue"
 let changeArea = (val: any) => {
   console.log(val);
-
 }
 
 </script>
