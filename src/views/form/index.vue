@@ -10,11 +10,16 @@
         jpg/png files with a size less than 500KB.
       </div>
     </template>
+    <!-- 作用域插槽，用于获取子组件的数据或方法 -->
+    <template #action="scope">
+      <el-button type="primary" @click="submitForm(scope)">提交</el-button>
+      <el-button @click="resetForm(scope)">重置</el-button>
+    </template>
   </my-form>
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from "element-plus";
+import { ElMessage, FormInstance } from "element-plus";
 import { reactive, toRefs, ref } from "vue"
 import { FormOptions } from "../../components/form/src/types/types";
 
@@ -62,7 +67,7 @@ let options: FormOptions[] = [
   },
   {
     type: 'select',
-    value: '1',
+    value: '',
     placeholder: '请选择职位',
     prop: 'role',
     label: '职位',
@@ -165,15 +170,34 @@ let options: FormOptions[] = [
       multiple: true,
       limit: 3
     },
-    rules: [
-      {
-        required: true,
-        message: '上传不能为空',
-        trigger: 'blur'
-      }
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '图片不能为空',
+    //     trigger: 'blur'
+    //   }
+    // ],
   }
 ]
+
+interface Scope {
+  form: FormInstance,
+  model: any
+}
+
+let submitForm = (scope: Scope) => {
+  scope.form.validate((valid) => {
+    if (valid) {
+      console.log(scope.model);
+      ElMessage.success('提交成功')
+    } else {
+      ElMessage.error('表单填写有误，请检查')
+    }
+  })
+}
+let resetForm = (scope: Scope) => {
+  scope.form.resetFields()
+}
 
 
 const handleRemove = (val: any) => {

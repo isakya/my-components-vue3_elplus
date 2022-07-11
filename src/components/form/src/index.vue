@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="model" :validate-on-rule-change="false" :model="model" :rules="rules" v-bind="$attrs">
+  <el-form v-if="model" ref="form" :validate-on-rule-change="false" :model="model" :rules="rules" v-bind="$attrs">
     <template v-for="(item, index) in options" :key="index">
       <el-form-item v-if="!item.children || !item.children!.length" :prop="item.prop" :label="item.label">
         <component v-if="item.type !== 'upload'" v-model="model[item.prop!]" :placeholder="item.placeholder"
@@ -22,12 +22,16 @@
         </component>
       </el-form-item>
     </template>
+    <!-- 表单操作项 -->
+    <el-form-item>
+      <slot name="action" :form="form" :model="model"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { ref, PropType, onMounted, watch } from "vue"
-import { FormOptions } from "./types/types";
+import { FormOptions, FormInstance } from "./types/types";
 import cloneDeep from 'lodash/cloneDeep'
 let props = defineProps({
   // 表单配置项
@@ -56,6 +60,7 @@ let emits = defineEmits([
 
 let model = ref<any>(null)
 let rules = ref<any>(null)
+let form = ref<FormInstance | null>()
 
 // 初始化表单
 let initForm = () => {
