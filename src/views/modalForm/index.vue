@@ -1,10 +1,20 @@
 <template>
   <div>
     <el-button type="primary" @click="open">open</el-button>
-    <modalForm :options="options" v-model:visible="visible" title="编辑用户">
+    <modalForm :isScroll="true" :on-change="handleChange" :on-success="handleSuccess" :options="options"
+      v-model:visible="visible" title="编辑用户">
       <template #footer="{ form }">
         <el-button @click="cancel">取消</el-button>
         <el-button type="primary" @click="confirm(form)">确认</el-button>
+      </template>
+      <!-- 上传文件 -->
+      <template #uploadArea>
+        <el-button size="small" type="primary">上传</el-button>
+      </template>
+      <template #uploadTip>
+        <div style="color: #ccc; font-size:12px; margin-left:10px;">
+          jpg/png files with a size less than 500KB.
+        </div>
       </template>
     </modalForm>
   </div>
@@ -75,7 +85,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: '职位不能为空',
-        trigger: 'blur'
+        trigger: 'change'
       }
     ],
     children: [
@@ -105,7 +115,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: '爱好不能为空',
-        trigger: 'blur'
+        trigger: 'change'
       }
     ],
     children: [
@@ -135,7 +145,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: '性别不能为空',
-        trigger: 'blur'
+        trigger: 'change'
       }
     ],
     children: [
@@ -168,7 +178,7 @@ let options: FormOptions[] = [
     },
     rules: [
       {
-        required: false,
+        required: true,
         message: '图片不能为空',
         trigger: 'blur'
       }
@@ -201,7 +211,7 @@ let confirm = (form: any) => {
       console.log(model());
 
     } else {
-      ElMessage.success('验证失败')
+      ElMessage.error('验证失败')
     }
   })
 }
@@ -211,7 +221,16 @@ let cancel = () => {
 
 }
 
-// 点击取消
+// 上传事件测试
+let handleSuccess = (val: any) => {
+  console.log('handleSuccess')
+  console.log(val);
+}
+
+let handleChange = (val: any) => {
+  console.log('handleChange')
+  console.log(val);
+}
 
 </script>
 
