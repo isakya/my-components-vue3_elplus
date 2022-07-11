@@ -1,5 +1,7 @@
 <template>
-  <el-table :data="data">
+  <el-table :element-loading-text="elementLoadingText" :element-loading-spinner="elementLoadingSpinner"
+    :element-loading-svg="elementLoadingSvg" :element-loading-svg-view-box="elementLoadingSvgViewBox"
+    :element-loading-background="elementLoadingLackground" :data="data" v-loading="isLoading">
     <template v-for="(item, index) in tableOptions" :key="index">
       <el-table-column v-if="!item.slot" :label="item.label" :prop="item.prop" :align="item.align" :width="item.width">
       </el-table-column>
@@ -33,7 +35,28 @@ let props = defineProps({
   data: {
     type: Array as PropType<any[]>,
     required: true
-  }
+  },
+  // 加载文案
+  elementLoadingText: {
+    type: String
+  },
+  // 自定义加载图标
+  elementLoadingSpinner: {
+    type: String
+  },
+  // 自定义加载图标 Svg 格式
+  elementLoadingSvg: {
+    type: String
+  },
+  // 必须有这个才会显示svg图标
+  // element-loading-svg-view-box="-10, -10, 50, 50" 格式
+  elementLoadingSvgViewBox: {
+    type: String
+  },
+  // 	背景遮罩的颜色
+  elementLoadingLackground: {
+    type: String
+  },
 })
 
 // 过滤操作选项之后的配置
@@ -45,7 +68,12 @@ let tableOptions = computed(() => {
 let actionOptions = computed(() => {
   return props.options!.find(item => item.action)
 })
-console.log(actionOptions);
+
+// 表格是否在加载中
+let isLoading = computed(() => {
+  // 没有表格数据，或表格数据为一个空数组时需要加载效果
+  return !props.data || !props.data.length
+})
 
 </script>
 
