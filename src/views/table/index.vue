@@ -1,7 +1,8 @@
 <template>
   <my-table elementLoadingText="加载中..." elementLoadingLackground="rgba(122, 122, 122, 0.8)" :elementLoadingSvg="svg"
     element-loading-svg-view-box="-10, -10, 50, 50" :data="tableData" :options="options" @confirm="check"
-    @cancel="close" isEditRow v-model:editRowIndex="editRowIndex">
+    @cancel="close" isEditRow v-model:editRowIndex="editRowIndex" pagination :total="total" :pageSize="pageSize"
+    paginationAlign="right" :currentPage="current" @sizeChange="sizeChange" @currentChange="currentChange">
     <template #date="{ scope }">
       <el-icon-timer></el-icon-timer>
       {{ scope.row.date }}
@@ -35,8 +36,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, ref } from "vue"
+import { reactive, toRefs, ref, onMounted } from "vue"
 import { TableOptions } from "../../components/table/src/types";
+import axios from 'axios'
+
+
 interface TableData {
   date: string,
   name: string,
@@ -46,6 +50,26 @@ interface TableData {
 let tableData = ref<TableData[]>([])
 
 let editRowIndex = ref<string>('')
+
+// 分页相关数据
+let current = ref<number>(1)
+let pageSize = ref<number>(10)
+let total = ref<number>(0)
+
+// 获取table数据
+let getData = () => {
+  axios.post('/api/list', {
+    current: current.value,
+    pageSize: pageSize.value
+  }).then((res: any) => {
+    tableData.value = res.data.data.rows
+    total.value = res.data.data.total
+  })
+}
+
+onMounted(() => {
+  getData()
+})
 
 // 加载图标
 const svg = `
@@ -59,32 +83,6 @@ const svg = `
         " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
       `
 
-setTimeout(() => {
-  // 表格数据
-  tableData.value = [
-    {
-      date: '2016-05-03',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-02',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-04',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-01',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    }
-  ]
-
-})
 
 
 // 表格配置
@@ -133,6 +131,16 @@ let close = (scope: any) => {
 
 }
 
+let sizeChange = (val: number) => {
+  pageSize.value = val
+  getData()
+  console.log('sizeChange', val);
+}
+let currentChange = (val: number) => {
+  current.value = val
+  getData()
+  console.log('currentChange', val);
+}
 </script>
 
 <style lang="scss" scoped>

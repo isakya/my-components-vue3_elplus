@@ -1,5 +1,5 @@
 <template>
-  <el-table :element-loading-text="elementLoadingText" :element-loading-spinner="elementLoadingSpinner"
+  <el-table v-bind="$attrs" :element-loading-text="elementLoadingText" :element-loading-spinner="elementLoadingSpinner"
     :element-loading-svg="elementLoadingSvg" :element-loading-svg-view-box="elementLoadingSvgViewBox"
     :element-loading-background="elementLoadingLackground" :data="tableData" v-loading="isLoading"
     @row-click="rowClick">
@@ -47,6 +47,11 @@
       </template>
     </el-table-column>
   </el-table>
+  <div class="pagination" :style="{ 'justify-content': paginationAlignJustify }" v-if="pagination">
+    <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="pageSizes"
+      layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -101,11 +106,40 @@ let props = defineProps({
   editRowIndex: {
     type: String,
     default: ''
+  },
+  // 当前是第几页的数据
+  currentPage: {
+    type: Number,
+    default: 1
+  },
+  // 当前一页多少条数据
+  pageSize: {
+    type: Number,
+    default: 10
+  },
+  // 每页显示数据数量选项
+  pageSizes: {
+    type: Array as PropType<number[]>,
+    default: [10, 20, 30, 40]
+  },
+  // 数据的总数
+  total: {
+    type: Number,
+  },
+  // 是否显示分页
+  pagination: {
+    type: Boolean,
+    default: false
+  },
+  // 分页的排列方式
+  paginationAlign: {
+    type: String as PropType<'left' | 'center' | 'right'>,
+    default: 'left'
   }
 })
 
 // 分发事件
-let emits = defineEmits(['confirm', 'cancel', 'update:editRowIndex'])
+let emits = defineEmits(['confirm', 'cancel', 'update:editRowIndex', 'sizeChange', 'currentChange'])
 
 // 当前点击的单元格
 let currentEdit = ref<string>('')
@@ -178,6 +212,16 @@ let rowClick = (row: any, column: any) => {
   }
 }
 
+// 分页的条数改变
+let handleSizeChange = (val: number) => {
+  emits('sizeChange', val)
+}
+
+// 分页的页数改变
+let handleCurrentChange = (val: number) => {
+  emits('currentChange', val)
+}
+
 
 
 // 过滤操作选项之后的配置
@@ -196,6 +240,12 @@ let isLoading = computed(() => {
   return !props.data || !props.data.length
 })
 
+// 分页组件排列方式
+let paginationAlignJustify = computed(() => {
+  if (props.paginationAlign === 'left') return 'flex-start'
+  else if (props.paginationAlign === 'center') return 'center'
+  else return 'flex-end'
+})
 </script>
 
 <style lang="scss" scoped>
@@ -228,5 +278,11 @@ let isLoading = computed(() => {
       color: green;
     }
   }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
 }
 </style>
