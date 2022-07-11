@@ -1,22 +1,25 @@
 <template>
-  <el-menu class="el-menu-vertical-demo" :default-active="defaultActive" :router="router" v-bind="$attrs">
-    <template v-for="(item, i) in data">
-      <el-menu-item :key="i" v-if="!item[children] || !item[children].length" :index="item[index]">
-        <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
-        <span>{{ item[name] }}</span>
-      </el-menu-item>
-      <el-sub-menu :key="index" v-if="item[children] && item[children].length > 0" :index="item[index]">
-        <template #title>
+  <el-scrollbar>
+    <el-menu class="el-menu-vertical-demo" :default-active="defaultActive" :router="router" v-bind="$attrs">
+      <template v-for="(item, i) in data">
+        <el-menu-item :key="i" v-if="!item[children] || !item[children].length" :index="item[index]">
           <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
           <span>{{ item[name] }}</span>
-        </template>
-        <el-menu-item v-for="item1, index1 in item[children]" :key="index1" :index="item1[index]">
-          <component v-if="item1[icon]" :is="`el-icon-${toLine(item1[icon])}`"></component>
-          <span>{{ item1[name] }}</span>
         </el-menu-item>
-      </el-sub-menu>
-    </template>
-  </el-menu>
+        <el-sub-menu :key="index" v-if="item[children] && item[children].length > 0" :index="item[index]">
+          <template #title>
+            <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
+            <span>{{ item[name] }}</span>
+          </template>
+          <el-menu-item v-for="item1, index1 in item[children]" :key="index1" :index="item1[index]">
+            <component v-if="item1[icon]" :is="`el-icon-${toLine(item1[icon])}`"></component>
+            <span>{{ item1[name] }}</span>
+          </el-menu-item>
+        </el-sub-menu>
+      </template>
+    </el-menu>
+  </el-scrollbar>
+
 </template>
 
 <script setup lang="ts">

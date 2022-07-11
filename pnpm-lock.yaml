@@ -2,6 +2,9 @@ lockfileVersion: 5.4
 
 specifiers:
   '@element-plus/icons-vue': ^2.0.6
+  '@fullcalendar/core': ^5.11.0
+  '@fullcalendar/daygrid': ^5.11.0
+  '@fullcalendar/interaction': ^5.11.0
   '@types/lodash': ^4.14.182
   '@types/mockjs': ^1.0.6
   '@vitejs/plugin-vue': ^2.3.3
@@ -20,6 +23,9 @@ specifiers:
 
 dependencies:
   '@element-plus/icons-vue': 2.0.6_vue@3.2.37
+  '@fullcalendar/core': 5.11.0
+  '@fullcalendar/daygrid': 5.11.0
+  '@fullcalendar/interaction': 5.11.0
   '@types/lodash': 4.14.182
   element-plus: 2.2.9_vue@3.2.37
   lodash: 4.17.21
@@ -368,6 +374,34 @@ packages:
     resolution: {integrity: sha512-419BMceRLq0RrmTSDxn8hf9R3VCJv2K9PUfugh5JyEFmdjzDo+e8U5EdR8nzKq8Yj1htzLm3b6eQEEam3/rrtg==}
     dependencies:
       '@floating-ui/core': 0.7.3
+    dev: false
+
+  /@fullcalendar/common/5.11.0:
+    resolution: {integrity: sha512-gWjbMAnN1u73Oqlgjbyky7i+3bY0hvFSnGT0YBPx44n874AkQa9e9OU12PMLTMOPy0tXPb8DEwRelFQ7CJNbcw==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
+
+  /@fullcalendar/core/5.11.0:
+    resolution: {integrity: sha512-cF/d9LuJb/6xw14ms0urv1H4BiA70c4jrufe/EuVzLR6qTDpK92IZ3JK7GVtZtzptfTYZ/NQgDV9YCzIaO9Blw==}
+    dependencies:
+      '@fullcalendar/common': 5.11.0
+      preact: 10.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@fullcalendar/daygrid/5.11.0:
+    resolution: {integrity: sha512-Ybh/dfHn/VL0qOVIRVyJc9I8oYiqqHl6xQONk8xXCe456QbPzAQLsAxpLLJLH+3smWNCfoQgvDKzR9e9XTzLMQ==}
+    dependencies:
+      '@fullcalendar/common': 5.11.0
+      tslib: 2.4.0
+    dev: false
+
+  /@fullcalendar/interaction/5.11.0:
+    resolution: {integrity: sha512-9XTI5+ydqrSX+IL3iWgKBURXfnPewn57Tmsv9mJZhiqrUEF7/+qtftLoKEAc8ZdWk/+01aBe67PFL16uPXj2Jg==}
+    dependencies:
+      '@fullcalendar/common': 5.11.0
+      tslib: 2.4.0
     dev: false
 
   /@jridgewell/gen-mapping/0.1.1:
@@ -1242,6 +1276,10 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+
+  /preact/10.9.0:
+    resolution: {integrity: sha512-jO6/OvCRL+OT8gst/+Q2ir7dMybZAX8ioP02Zmzh3BkQMHLyqZSujvxbUriXvHi8qmhcHKC2Gwbog6Kt+YTh+Q==}
+    dev: false
 
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
