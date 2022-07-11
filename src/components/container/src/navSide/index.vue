@@ -69,6 +69,11 @@ let data = [
     index: '/form'
   },
   {
+    icon: 'MagicStick',
+    name: '弹出框表单',
+    index: '/modalForm'
+  },
+  {
     icon: 'TrendCharts',
     name: '表格',
     index: '/table'
