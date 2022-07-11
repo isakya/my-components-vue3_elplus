@@ -3,11 +3,30 @@
     :element-loading-svg="elementLoadingSvg" :element-loading-svg-view-box="elementLoadingSvgViewBox"
     :element-loading-background="elementLoadingLackground" :data="data" v-loading="isLoading">
     <template v-for="(item, index) in tableOptions" :key="index">
-      <el-table-column v-if="!item.slot" :label="item.label" :prop="item.prop" :align="item.align" :width="item.width">
-      </el-table-column>
-      <el-table-column v-else :label="item.label" :prop="item.prop" :align="item.align" :width="item.width">
+      <el-table-column :label="item.label" :prop="item.prop" :align="item.align" :width="item.width">
         <template #default="scope">
-          <slot :name="item.slot" :scope="scope"></slot>
+          <!-- 编辑输入框 -->
+          <template v-if="(scope.$index + scope.column.id) === currentEdit">
+            <div class="edit-container">
+              <el-input size="small" v-model="scope.row[item.prop!]"></el-input>
+              <div @click="clickEditCell(scope)">
+                <!-- 如果自定义 x 和 √ 就用slot -->
+                <slot name="editCell" :scope="scope" v-if="$slots.editCell"></slot>
+                <!-- 否则就用默认 的 x 和 √ -->
+                <div class="icons" v-else>
+                  <el-icon-check class="check" @click="check(scope)"></el-icon-check>
+                  <el-icon-close class="close" @click="close(scope)"></el-icon-close>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 正常数据显示 -->
+          <template v-else>
+            <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>
+            <span v-else>{{ scope.row[item.prop!] }}</span>
+            <component :is="`el-icon-${toLine(editIcon)}`" @click="clickEdit(scope)" class="edit" v-if="item.editable">
+            </component>
+          </template>
         </template>
       </el-table-column>
     </template>
@@ -24,6 +43,7 @@
 <script setup lang="ts">
 import { PropType, ref, computed } from "vue"
 import { TableOptions } from "./types"
+import { toLine } from '../../../utils'
 
 let props = defineProps({
   // 表格的配置
@@ -53,11 +73,47 @@ let props = defineProps({
   elementLoadingSvgViewBox: {
     type: String
   },
-  // 	背景遮罩的颜色
+  // 背景遮罩的颜色
   elementLoadingLackground: {
     type: String
   },
+  // 自定义编辑单元格的图标
+  editIcon: {
+    type: String,
+    default: 'edit'
+  }
 })
+
+// 分发事件
+let emits = defineEmits(['check', 'close'])
+
+// 当前点击的单元格
+let currentEdit = ref<string>('')
+
+
+// 点击编辑图标
+let clickEdit = (scope: any) => {
+  // 得到唯一标识 scope.$index(行)，scope.column.id(列)，如（x,y）坐标点一样，每个单元格都是唯一的坐标点，不会 重复
+  currentEdit.value = scope.$index + scope.column.id
+  console.log(scope)
+
+}
+
+let clickEditCell = (scope: any) => {
+  // 点击后关闭编辑状态
+  currentEdit.value = ''
+}
+
+// 点击 勾 √
+let check = (scope: any) => {
+  emits('check', scope)
+}
+// 点击 叉 ×
+let close = (scope: any) => {
+  emits('close', scope)
+
+}
+
 
 // 过滤操作选项之后的配置
 let tableOptions = computed(() => {
@@ -78,4 +134,34 @@ let isLoading = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.edit {
+  position: relative;
+  top: 2px;
+  left: 4px;
+  cursor: pointer;
+}
+
+.edit-container {
+  display: flex;
+  align-items: center;
+
+  .icons {
+    display: flex;
+
+    svg {
+      width: 1.1em;
+      height: 1.1em;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    .check {
+      color: red;
+    }
+
+    .close {
+      color: green;
+    }
+  }
+}
 </style>

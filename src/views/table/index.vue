@@ -1,6 +1,6 @@
 <template>
   <my-table elementLoadingText="加载中..." elementLoadingLackground="rgba(122, 122, 122, 0.8)" :elementLoadingSvg="svg"
-    element-loading-svg-view-box="-10, -10, 50, 50" :data="tableData" :options="options">
+    element-loading-svg-view-box="-10, -10, 50, 50" :data="tableData" :options="options" @check="check" @close="close">
     <template #date="{ scope }">
       <el-icon-timer></el-icon-timer>
       {{ scope.row.date }}
@@ -19,6 +19,12 @@
     <template #action="{ scope }">
       <el-button size="small" type="primary" @click="edit(scope)">编辑</el-button>
       <el-button size="small" type="danger">删除</el-button>
+    </template>
+    <template #editCell="scope">
+      <div style="display:flex; margin-left: 8px;">
+        <el-button size="small" type="success">确定</el-button>
+        <el-button size="small">取消</el-button>
+      </div>
     </template>
   </my-table>
 </template>
@@ -71,7 +77,7 @@ setTimeout(() => {
     }
   ]
 
-}, 3000)
+})
 
 
 // 表格配置
@@ -80,19 +86,21 @@ let options: TableOptions[] = [
     label: '日期',
     prop: 'date',
     align: 'center',
-    slot: 'date'
+    slot: 'date',
+    editable: true
   },
   {
     label: '姓名',
     prop: 'name',
     align: 'center',
     // 自定义列
-    slot: 'name'
+    slot: 'name',
   },
   {
     label: '地址',
     prop: 'address',
-    align: 'center'
+    align: 'center',
+    editable: true
   },
   {
     label: '操作',
@@ -101,8 +109,18 @@ let options: TableOptions[] = [
   }
 ]
 
+// 进入编辑状态
 let edit = (scope: any) => {
   console.log(scope);
+
+}
+// 点击 勾 √
+let check = (scope: any) => {
+  console.log(scope);
+}
+// 点击 叉 ×
+let close = (scope: any) => {
+  console.log(scope)
 
 }
 
