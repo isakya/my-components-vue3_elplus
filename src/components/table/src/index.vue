@@ -1,31 +1,40 @@
 <template>
   <el-table :element-loading-text="elementLoadingText" :element-loading-spinner="elementLoadingSpinner"
     :element-loading-svg="elementLoadingSvg" :element-loading-svg-view-box="elementLoadingSvgViewBox"
-    :element-loading-background="elementLoadingLackground" :data="data" v-loading="isLoading">
+    :element-loading-background="elementLoadingLackground" :data="tableData" v-loading="isLoading"
+    @row-click="rowClick">
     <template v-for="(item, index) in tableOptions" :key="index">
       <el-table-column :label="item.label" :prop="item.prop" :align="item.align" :width="item.width">
         <template #default="scope">
-          <!-- 编辑输入框 -->
-          <template v-if="(scope.$index + scope.column.id) === currentEdit">
-            <div class="edit-container">
-              <el-input size="small" v-model="scope.row[item.prop!]"></el-input>
-              <div @click="clickEditCell(scope)">
-                <!-- 如果自定义 x 和 √ 就用slot -->
-                <slot name="editCell" :scope="scope" v-if="$slots.editCell"></slot>
-                <!-- 否则就用默认 的 x 和 √ -->
-                <div class="icons" v-else>
-                  <el-icon-check class="check" @click="check(scope)"></el-icon-check>
-                  <el-icon-close class="close" @click="close(scope)"></el-icon-close>
+          <!-- 有编辑行操作的时候 -->
+          <template v-if="scope.row.isEditRow">
+            <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+          </template>
+          <!-- 没有编辑行操作的时候 -->
+          <template v-else>
+            <!-- 编辑输入框 -->
+            <template v-if="(scope.$index + scope.column.id) === currentEdit">
+              <div class="edit-container">
+                <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+                <div @click="clickEditCell(scope)">
+                  <!-- 如果自定义 x 和 √ 就用slot -->
+                  <slot name="editCell" :scope="scope" v-if="$slots.editCell"></slot>
+                  <!-- 否则就用默认 的 x 和 √ -->
+                  <div class="icons" v-else>
+                    <el-icon-check class="check" @click="check(scope)"></el-icon-check>
+                    <el-icon-close class="close" @click="close(scope)"></el-icon-close>
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-          <!-- 正常数据显示 -->
-          <template v-else>
-            <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>
-            <span v-else>{{ scope.row[item.prop!] }}</span>
-            <component :is="`el-icon-${toLine(editIcon)}`" @click="clickEdit(scope)" class="edit" v-if="item.editable">
-            </component>
+            </template>
+            <!-- 正常数据显示 -->
+            <template v-else>
+              <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>
+              <span v-else>{{ scope.row[item.prop] }}</span>
+              <component :is="`el-icon-${toLine(editIcon)}`" @click="clickEdit(scope)" class="edit"
+                v-if="item.editable">
+              </component>
+            </template>
           </template>
         </template>
       </el-table-column>
@@ -33,17 +42,18 @@
     <!-- 操作项 -->
     <el-table-column :label="actionOptions!.label" :align="actionOptions!.align" :width="actionOptions!.width">
       <template #default="scope">
-        <slot name="action" :scope="scope"></slot>
+        <slot name="editRow" v-if="scope.row.isEditRow"></slot>
+        <slot name="action" :scope="scope" v-else></slot>
       </template>
     </el-table-column>
   </el-table>
-
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, computed } from "vue"
+import { PropType, ref, computed, onMounted, watch } from "vue"
 import { TableOptions } from "./types"
 import { toLine } from '../../../utils'
+import cloneDeep from 'lodash/cloneDeep'
 
 let props = defineProps({
   // 表格的配置
@@ -81,15 +91,51 @@ let props = defineProps({
   editIcon: {
     type: String,
     default: 'edit'
+  },
+  // 是否可以编辑行
+  isEditRow: {
+    type: Boolean,
+    default: false
+  },
+  // 编辑行按钮的标识
+  editRowIndex: {
+    type: String,
+    default: ''
   }
 })
 
 // 分发事件
-let emits = defineEmits(['check', 'close'])
+let emits = defineEmits(['confirm', 'cancel'])
 
 // 当前点击的单元格
 let currentEdit = ref<string>('')
 
+// 拷贝一份表格的数据
+let tableData = ref<any[]>(cloneDeep(props.data))
+
+// 拷贝一份按钮的标识
+let cloneEditRowIndex = ref<string>(props.editRowIndex)
+
+// 监听父组件传递过来的数据
+watch(() => props.data, val => {
+  tableData.value = cloneDeep(val)
+  tableData.value.map(item => {
+    // 代表当前是否是可编辑的状态
+    item.rowEdit = false
+  })
+}, { deep: true })
+
+// 监听父组件传递过来的标识
+watch(() => props.editRowIndex, val => {
+  if (val) cloneEditRowIndex.value = val
+})
+
+onMounted(() => {
+  tableData.value.map(item => {
+    // 代表当前是否是可编辑的状态
+    item.rowEdit = false
+  })
+})
 
 // 点击编辑图标
 let clickEdit = (scope: any) => {
@@ -106,13 +152,30 @@ let clickEditCell = (scope: any) => {
 
 // 点击 勾 √
 let check = (scope: any) => {
-  emits('check', scope)
+  emits('confirm', scope)
 }
 // 点击 叉 ×
 let close = (scope: any) => {
-  emits('close', scope)
+  emits('cancel', scope)
 
 }
+
+// 点击每一行的事件
+let rowClick = (row: any, column: any) => {
+  // 判断当前点击的是否是操作项的内容（按钮）
+  if (column.label === actionOptions.value!.label) {
+    // 编辑行的操作
+    if (props.isEditRow && cloneEditRowIndex.value === props.editRowIndex) {
+      // 点击的按钮时做可编辑的操作
+      row.isEditRow = !row.isEditRow
+      // 重置其他数据的isEditRow
+      tableData.value.map(item => {
+        if (item !== row) item.isEditRow = false
+      })
+    }
+  }
+}
+
 
 
 // 过滤操作选项之后的配置

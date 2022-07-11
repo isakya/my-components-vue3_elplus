@@ -209,7 +209,6 @@ let confirm = (form: any) => {
     if (valid) {
       ElMessage.success('验证成功')
       console.log(model());
-
     } else {
       ElMessage.error('验证失败')
     }

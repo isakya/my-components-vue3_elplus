@@ -1,6 +1,7 @@
 <template>
   <my-table elementLoadingText="加载中..." elementLoadingLackground="rgba(122, 122, 122, 0.8)" :elementLoadingSvg="svg"
-    element-loading-svg-view-box="-10, -10, 50, 50" :data="tableData" :options="options" @check="check" @close="close">
+    element-loading-svg-view-box="-10, -10, 50, 50" :data="tableData" :options="options" @confirm="check"
+    @cancel="close" isEditRow :editRowIndex="editRowIndex">
     <template #date="{ scope }">
       <el-icon-timer></el-icon-timer>
       {{ scope.row.date }}
@@ -18,6 +19,10 @@
     </template>
     <template #action="{ scope }">
       <el-button size="small" type="primary" @click="edit(scope)">编辑</el-button>
+      <el-button size="small" type="danger">删除</el-button>
+    </template>
+    <template #editRow="{ scope }">
+      <el-button size="small" type="primary">确认</el-button>
       <el-button size="small" type="danger">删除</el-button>
     </template>
     <template #editCell="scope">
@@ -39,6 +44,8 @@ interface TableData {
 }
 
 let tableData = ref<TableData[]>([])
+
+let editRowIndex = ref<string>('')
 
 // 加载图标
 const svg = `
@@ -104,6 +111,7 @@ let options: TableOptions[] = [
   },
   {
     label: '操作',
+    prop: '',
     align: 'center',
     action: true
   }
@@ -111,7 +119,8 @@ let options: TableOptions[] = [
 
 // 进入编辑状态
 let edit = (scope: any) => {
-  console.log(scope);
+  // console.log(scope);
+  editRowIndex.value = 'edit'
 
 }
 // 点击 勾 √
