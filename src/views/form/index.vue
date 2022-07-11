@@ -6,7 +6,7 @@
       <el-button size="small" type="primary">上传</el-button>
     </template>
     <template #uploadTip>
-      <div style="color: #ccc; font-size:12px;">
+      <div style="color: #ccc; font-size:12px; margin-left:10px;">
         jpg/png files with a size less than 500KB.
       </div>
     </template>
@@ -178,6 +178,20 @@ let options: FormOptions[] = [
         trigger: 'blur'
       }
     ],
+  },
+  {
+    type: 'editor',
+    value: '我是内容啦啦啦',
+    prop: 'desc',
+    label: '描述',
+    placeholder: '请输入描述',
+    rules: [
+      {
+        required: true,
+        message: '描述不能为空',
+        trigger: 'blur'
+      }
+    ]
   }
 ]
 

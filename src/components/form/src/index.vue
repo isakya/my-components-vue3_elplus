@@ -2,15 +2,16 @@
   <el-form v-if="model" ref="form" :validate-on-rule-change="false" :model="model" :rules="rules" v-bind="$attrs">
     <template v-for="(item, index) in options" :key="index">
       <el-form-item v-if="!item.children || !item.children!.length" :prop="item.prop" :label="item.label">
-        <component v-if="item.type !== 'upload'" v-model="model[item.prop!]" :placeholder="item.placeholder"
-          v-bind="item.attrs" :is="`el-${item.type}`"></component>
+        <component v-if="item.type !== 'upload' && item.type !== 'editor'" v-model="model[item.prop!]"
+          :placeholder="item.placeholder" v-bind="item.attrs" :is="`el-${item.type}`"></component>
         <el-upload :on-preview="onPreview" :on-remove="onRemove" :on-success="onSuccess" :on-error="onError"
           :on-progress="onProgress" :on-change="onChange" :before-remove="beforeRemove" :before-upload="beforeUpload"
           :http-request="httpRequest" :on-exceed="onExceed" v-bind="item.
-          uploadAttrs" v-else>
+          uploadAttrs" v-if="item.type === 'upload'">
           <slot name="uploadArea"></slot>
           <slot name="uploadTip"></slot>
         </el-upload>
+        <div id="editor" v-if="item.type === 'editor'"></div>
       </el-form-item>
       <el-form-item v-if="item.children && item.children.length" :prop="item.prop" :label="item.label">
         <component v-model="model[item.prop!]" v-bind="item.attrs" :placeholder="item.placeholder"
@@ -30,9 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, PropType, onMounted, watch } from "vue"
+import { ref, PropType, onMounted, watch, nextTick } from "vue"
 import { FormOptions, FormInstance } from "./types/types";
 import cloneDeep from 'lodash/cloneDeep'
+import E from "wangeditor"
+
 let props = defineProps({
   // 表单配置项
   options: {
@@ -70,6 +73,23 @@ let initForm = () => {
     props.options.map((item: FormOptions) => {
       m[item.prop!] = item.value
       r[item.prop!] = item.rules
+      if (item.type === 'editor') {
+        // 初始化富文本操作
+        // nextTick获取更新之后的dom
+        nextTick(() => {
+          if (document.getElementById('editor')) {
+            const editor = new E('#editor')
+            editor.config.placeholder = item.placeholder!
+            editor.create()
+            // 初始化富文本内容 
+            editor.txt.html(item.value)
+            editor.config.onchange = (newHtml: string) => {
+              model.value[item.prop!] = newHtml
+
+            }
+          }
+        })
+      }
     })
     model.value = cloneDeep(m)
     rules.value = cloneDeep(r)

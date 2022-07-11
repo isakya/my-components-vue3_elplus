@@ -10,7 +10,7 @@ interface Callback {
 // 表单每一项的配置选项
 export interface FormOptions {
   // 表单项显示的元素 el-plus 上的所有Form表单组件
-  type: 'cascader' | 'checkbox' | 'checkbox-group' | 'checkbox-button' | 'checkbox-picker' | 'date-picker' | 'input' | 'input-number' | 'radio' | 'radio-group' | 'radio-button' | 'rate' | 'select' | 'option' | 'slider' | 'switch' | 'time-picker' | 'time-select' | 'transfer' | 'upload',
+  type: 'cascader' | 'checkbox' | 'checkbox-group' | 'checkbox-button' | 'checkbox-picker' | 'date-picker' | 'input' | 'input-number' | 'radio' | 'radio-group' | 'radio-button' | 'rate' | 'select' | 'option' | 'slider' | 'switch' | 'time-picker' | 'time-select' | 'transfer' | 'upload' | 'editor',
   // 当前表单项的值
   value?: any,
   // 表单项的label
