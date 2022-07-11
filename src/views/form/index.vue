@@ -166,17 +166,18 @@ let options: FormOptions[] = [
     label: '上传',
     prop: 'pic',
     uploadAttrs: {
-      action: 'https://jsonplaceholder.typicode.com/posts/',
+      action: 'https://www.fastmock.site/mock/d3a3f89bb4f7a78cde5517e167d4e750/api/upload',
       multiple: true,
-      limit: 3
+      limit: 3,
+      method: 'post',
     },
-    // rules: [
-    //   {
-    //     required: true,
-    //     message: '图片不能为空',
-    //     trigger: 'blur'
-    //   }
-    // ],
+    rules: [
+      {
+        required: true,
+        message: '图片不能为空',
+        trigger: 'blur'
+      }
+    ],
   }
 ]
 
