@@ -64,6 +64,7 @@ let emits = defineEmits([
 let model = ref<any>(null)
 let rules = ref<any>(null)
 let form = ref<FormInstance | null>()
+let edit = ref()
 
 // 初始化表单
 let initForm = () => {
@@ -87,6 +88,8 @@ let initForm = () => {
               model.value[item.prop!] = newHtml
 
             }
+            // 存储edit实例，用来给函数外部使用
+            edit.value = editor
           }
         })
       }
@@ -95,6 +98,25 @@ let initForm = () => {
     rules.value = cloneDeep(r)
   }
 }
+
+// 重置表单
+let resetFields = () => {
+  // 重置element—plus的表单,直接调用表单重置的方法
+  form.value!.resetFields()
+  // 重置富文本编辑器的内容
+  // 获取到富文本的配置项
+  if (props.options && props.options.length) {
+    let editorItem = props.options.find(item => item.type === 'editor')!
+    // 把富文本编辑器的内容重置为父组件传入的富文本初始值
+    edit.value.txt.html(editorItem.value)
+  }
+}
+
+// 分发重置方法
+defineExpose({
+  resetFields
+})
+
 onMounted(() => {
   initForm()
 })

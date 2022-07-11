@@ -1,5 +1,5 @@
 <template>
-  <my-form @on-change="handleChange" @before-upload="handleBeforeUpload" @on-preview="handlePreview"
+  <my-form ref="form" @on-change="handleChange" @before-upload="handleBeforeUpload" @on-preview="handlePreview"
     @on-remove="handleRemove" @before-remove="beforeRemove" @on-exceed="handleExceed" @on-success="handleSuccess"
     label-width="100px" :options="options">
     <template #uploadArea>
@@ -13,7 +13,7 @@
     <!-- 作用域插槽，用于获取子组件的数据或方法 -->
     <template #action="scope">
       <el-button type="primary" @click="submitForm(scope)">提交</el-button>
-      <el-button @click="resetForm(scope)">重置</el-button>
+      <el-button @click="resetForm">重置</el-button>
     </template>
   </my-form>
 </template>
@@ -195,6 +195,8 @@ let options: FormOptions[] = [
   }
 ]
 
+let form = ref()
+
 interface Scope {
   form: FormInstance,
   model: any
@@ -210,8 +212,9 @@ let submitForm = (scope: Scope) => {
     }
   })
 }
-let resetForm = (scope: Scope) => {
-  scope.form.resetFields()
+// 重置表单,注意：这个方法是在子组件中用defineExpose分发出来的方法，不是作用域插槽分发出来的方法
+let resetForm = () => {
+  form.value.resetFields()
 }
 
 
