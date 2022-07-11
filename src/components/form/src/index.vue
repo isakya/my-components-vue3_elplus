@@ -112,9 +112,21 @@ let resetFields = () => {
   }
 }
 
+// 表单验证
+let validate = () => {
+  return form.value!.validate
+}
+
+// 获取表单数据,不能直接把model.value直接分发出去，那样只能拿到初始值，需要用方法包装才行,
+let getFormData = () => {
+  return model.value
+}
+
 // 分发重置方法
 defineExpose({
-  resetFields
+  resetFields,
+  validate,
+  getFormData
 })
 
 onMounted(() => {

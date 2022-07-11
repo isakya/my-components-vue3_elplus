@@ -1,5 +1,7 @@
 <template>
-  <el-progress v-bind="$attrs" :percentage="p"></el-progress>
+  <div class="my-el-progress-circle-size">
+    <el-progress v-bind="$attrs" :percentage="p"></el-progress>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -23,3 +23,12 @@
 
 }
 
+.my-el-progress-circle-size {
+   .el-progress-circle {
+     svg {
+      width: 8em;
+      height: 8em;
+    }
+  }
+
+}
