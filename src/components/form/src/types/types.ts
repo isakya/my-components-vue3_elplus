@@ -36,7 +36,7 @@ export interface FormOptions {
     // 设置上传的请求方法
     method?:'post' | 'put' | 'path',
     // 是否支持多选文件
-    mutiple?: boolean,
+    multiple?: boolean,
     // 上传时附带的额外参数
     data?: any,
     // 上传的文件字段名

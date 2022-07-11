@@ -1,7 +1,7 @@
 <template>
   <my-form @on-change="handleChange" @before-upload="handleBeforeUpload" @on-preview="handlePreview"
     @on-remove="handleRemove" @before-remove="beforeRemove" @on-exceed="handleExceed" @on-success="handleSuccess"
-    mutiple label-width="100px" :options="options">
+    label-width="100px" :options="options">
     <template #uploadArea>
       <el-button size="small" type="primary">上传</el-button>
     </template>
@@ -161,7 +161,9 @@ let options: FormOptions[] = [
     label: '上传',
     prop: 'pic',
     uploadAttrs: {
-      action: 'https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15'
+      action: 'https://jsonplaceholder.typicode.com/posts/',
+      multiple: true,
+      limit: 3
     },
     rules: [
       {

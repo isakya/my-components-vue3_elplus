@@ -34,6 +34,10 @@ let props = defineProps({
   options: {
     type: Array as PropType<FormOptions[]>,
     required: true
+  },
+  // 用户自定义上传方法
+  httpRequest: {
+    type: Function
   }
 })
 
@@ -46,7 +50,6 @@ let emits = defineEmits([
   'on-change',
   'before-remove',
   'before-upload',
-  'http-request',
   'on-exceed'
 ])
 
@@ -119,10 +122,7 @@ let beforeUpload = (file: any, fileList: any) => {
   emits('before-upload', { file, fileList })
 
 }
-let httpRequest = (file: any) => {
-  emits('http-request', file)
 
-}
 let onExceed = (file: any, fileList: any) => {
   emits('on-exceed', { file, fileList })
 
