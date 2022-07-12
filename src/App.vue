@@ -8,7 +8,7 @@
 @import './styles/ui.scss';
 @import './styles/base.scss';
 
-.el-popper {
+.notification-popper-class {
   padding: 0 !important;
 }
 </style>

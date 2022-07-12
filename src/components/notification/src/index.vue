@@ -1,5 +1,5 @@
 <template>
-  <el-popover :width="300">
+  <el-popover popper-class="notification-popper-class" :width="300">
     <template #reference>
       <el-badge style="cursor: pointer;" :value="value" :max="max" :is-dot="isDot">
         <component :is="`el-icon-${toLine(icon)}`"></component>
