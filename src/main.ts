@@ -5,7 +5,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import {toLine} from './utils'
-import myUI from './components'
+// import myUI from './components'
+import myUI from '../lib/isakya-element-components.es'
+import '../lib/style.css'
 import './mock'
 const app = createApp(App)
 
