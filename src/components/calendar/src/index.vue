@@ -4,11 +4,11 @@
 
 <script setup lang="ts">
 import '@fullcalendar/core/vdom' // solves problem with Vite
-import { Calendar } from '@fullcalendar/core'
+import { Calendar, EventClickArg } from '@fullcalendar/core'
 import daygrid from '@fullcalendar/daygrid'
-import interaction from '@fullcalendar/interaction'
+import interaction, { DateClickArg } from '@fullcalendar/interaction'
 import { EventItem } from './types'
-import { PropType, ref, onMounted } from "vue"
+import { PropType, ref, onMounted, watch } from "vue"
 
 let props = defineProps({
   // 日历显示的语言
@@ -52,7 +52,14 @@ let props = defineProps({
   footerToolbar: {
     type: Object
   },
+  // 事件源
+  events: {
+    type: Array as PropType<EventItem[]>,
+    default: () => []
+  }
 })
+
+let emits = defineEmits(['dateClick', 'eventClick'])
 
 let calendar = ref<Calendar>()
 
@@ -72,6 +79,23 @@ let renderCalendar = () => {
       headerToolbar: props.headerToolbar,
       // 底部工具栏
       footerToolbar: props.footerToolbar,
+      eventSources: [
+        {
+          // 渲染日历的事件
+          events(e, callback) {
+            if (props.events.length) callback(props.events)
+            else callback([])
+          }
+        }
+      ],
+      // 点击日历上的某一天
+      dateClick(info: DateClickArg) {
+        emits('dateClick', info)
+      },
+      // 点击日历上的某个事件
+      eventClick(info: EventClickArg) {
+        emits('eventClick', info)
+      }
     })
     calendar.value.render()
   }
@@ -80,6 +104,11 @@ let renderCalendar = () => {
 onMounted(() => {
   renderCalendar()
 })
+
+// 监听父组件传递的事件源
+watch(() => props.events, () => {
+  renderCalendar()
+}, { deep: true })
 
 
 </script>
