@@ -15,7 +15,7 @@ specifiers:
   lodash: ^4.17.21
   mockjs: ^1.1.0
   sass: ^1.53.0
-  typescript: ^4.5.4
+  typescript: 4.7.3
   vite: ^2.9.9
   vue: ^3.2.25
   vue-router: ^4.0.13
@@ -42,9 +42,9 @@ devDependencies:
   fs-extra: 10.1.0
   mockjs: 1.1.0
   sass: 1.53.0
-  typescript: 4.7.4
+  typescript: 4.7.3
   vite: 2.9.14_sass@1.53.0
-  vue-tsc: 0.34.17_typescript@4.7.4
+  vue-tsc: 0.34.17_typescript@4.7.3
 
 packages:
 
@@ -1393,8 +1393,8 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
+  /typescript/4.7.3:
+    resolution: {integrity: sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -1464,14 +1464,14 @@ packages:
       vue: 3.2.37
     dev: false
 
-  /vue-tsc/0.34.17_typescript@4.7.4:
+  /vue-tsc/0.34.17_typescript@4.7.3:
     resolution: {integrity: sha512-jzUXky44ZLHC4daaJag7FQr3idlPYN719/K1eObGljz5KaS2UnVGTU/XSYCd7d6ampYYg4OsyalbHyJIxV0aEQ==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
       '@volar/vue-typescript': 0.34.17
-      typescript: 4.7.4
+      typescript: 4.7.3
     dev: true
 
   /vue/3.2.37:
