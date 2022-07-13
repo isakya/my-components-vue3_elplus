@@ -6,7 +6,7 @@ export interface ListItem {
   title?: string,
   // 描述
   desc?: string,
-  // 事件
+  // 时间
   time?: string,
   // 标签名称
   tag?: string, 
@@ -16,12 +16,16 @@ export interface ListItem {
 
 // 列表
 export interface ListOptions {
+  // tab的标题
   title: string,
+  // 列表的内容
   content: ListItem[]
 }
 
 // 操作
 export interface ActionOptions {
+  // 操作标题
   text: string,
+  // 图标
   icon?: string
 }

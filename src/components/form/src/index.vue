@@ -8,7 +8,9 @@
           :on-progress="onProgress" :on-change="onChange" :before-remove="beforeRemove" :before-upload="beforeUpload"
           :http-request="httpRequest" :on-exceed="onExceed" v-bind="item.
           uploadAttrs" v-if="item.type === 'upload'">
+          <!-- 上传组件的占位符 -->
           <slot name="uploadArea"></slot>
+          <!-- 上传组件的提示信息 -->
           <slot name="uploadTip"></slot>
         </el-upload>
         <div id="editor" v-if="item.type === 'editor'"></div>

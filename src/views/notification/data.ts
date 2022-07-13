@@ -3,49 +3,49 @@ export const list = [
     title: '通知',
     content: [
       {
-        title: '蒂姆·库克回复了你的邮件',
+        title: 'IZUMI回复了你的邮件',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4'
       },
       {
-        title: '乔纳森·伊夫邀请你参加会议',
+        title: '尤雨溪邀请你参加会议',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png'
+        avatar: 'https://avatars.githubusercontent.com/u/499550?v=4'
       },
       {
-        title: '斯蒂夫·沃兹尼亚克已批准了你的休假申请',
+        title: 'Eduardo已批准了你的休假申请',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png'
+        avatar: 'https://avatars.githubusercontent.com/u/664177?v=4'
       },
       {
-        title: '蒂姆·库克回复了你的邮件',
+        title: 'IZUMI回复了你的邮件',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4'
       },
       {
-        title: '乔纳森·伊夫邀请你参加会议',
+        title: '尤雨溪邀请你参加会议',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png'
+        avatar: 'https://avatars.githubusercontent.com/u/499550?v=4'
       },
       {
-        title: '斯蒂夫·沃兹尼亚克已批准了你的休假申请',
+        title: 'Eduardo已批准了你的休假申请',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png'
+        avatar: 'https://avatars.githubusercontent.com/u/664177?v=4'
       },
       {
-        title: '蒂姆·库克回复了你的邮件',
+        title: 'IZUMI回复了你的邮件',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4'
       },
       {
-        title: '乔纳森·伊夫邀请你参加会议',
+        title: '尤雨溪邀请你参加会议',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png'
+        avatar: 'https://avatars.githubusercontent.com/u/499550?v=4'
       },
       {
-        title: '斯蒂夫·沃兹尼亚克已批准了你的休假申请',
+        title: 'Eduardo已批准了你的休假申请',
         time: '2019-05-08 14:33:18',
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png'
+        avatar: 'https://avatars.githubusercontent.com/u/664177?v=4'
       }
 
     ],
@@ -54,20 +54,20 @@ export const list = [
     title: '关注',
     content: [
       {
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '曲丽丽 评论了你',
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4',
+        title: 'IZUMI 评论了你',
         desc: '描述信息描述信息描述信息',
         time: '3小时前'
       },
       {
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '曲丽丽 评论了你',
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4',
+        title: 'IZUMI 评论了你',
         desc: '描述信息描述信息描述信息',
         time: '3小时前'
       },
       {
-        avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '曲丽丽 评论了你',
+        avatar: 'https://avatars.githubusercontent.com/u/55723002?v=4',
+        title: 'IZUMI 评论了你',
         desc: '描述信息描述信息描述信息',
         time: '3小时前'
       }

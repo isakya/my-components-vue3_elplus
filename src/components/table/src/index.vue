@@ -83,6 +83,7 @@ let props = defineProps({
   elementLoadingSvg: {
     type: String
   },
+  // 加载图标是svg的配置
   // 必须有这个才会显示svg图标
   // element-loading-svg-view-box="-10, -10, 50, 50" 格式
   elementLoadingSvgViewBox: {

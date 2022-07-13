@@ -124,6 +124,7 @@ let changeSelect = (val: number) => {
   let city = allCity.value.find(item => item.id === val)!
   result.value = city.name
   if (radioValue.value === '按城市') {
+    // 按城市选择时触发
     emits('changeCity', city)
     // 关闭弹出层
     visible.value = false
@@ -140,7 +141,7 @@ let changeSelect = (val: number) => {
 // 最终选择的结果
 let result = ref<string>('请选择')
 // 控制弹出层的显示（但el-plus v-model:visible有bug目前不生效）
-let visible = ref<boolean>(true)
+let visible = ref<boolean>(false)
 // 单选框的值 按城市还是省份选择
 let radioValue = ref<string>('按城市')
 // 下拉框的值 搜索下拉框

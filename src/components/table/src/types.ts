@@ -1,11 +1,11 @@
 export interface TableOptions {
-  // 表头
+  // 表头名称
   label: string,
-  // 字段名称
+  // 表格数据字段名
   prop: string,
-  // 列宽度
+  // 表格单元格宽度
   width?: string | number,
-  // 对齐方式
+  // 表格单元格对齐方式
   align?: 'left' | 'center' | 'right',
   // 自定义列表模板名称
   slot?: string,

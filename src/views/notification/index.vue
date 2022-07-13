@@ -35,7 +35,6 @@ let clickAction = (val: any) => {
   console.log(val);
 
 }
-
 </script>
 
 <style lang="scss" scoped>

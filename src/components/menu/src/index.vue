@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { toLine } from '../../../utils'
-import { reactive, toRefs, ref, PropType } from "vue"
+import { PropType } from "vue"
 
 let props = defineProps({
   // 导航菜单的数据

@@ -21,7 +21,7 @@ export interface FormOptions {
   rules?: RuleItem[],
   // 表单项的占位符
   placeholder?: string
-  // 表单元素特有的属性，暂时给any类型
+  // 表单元素特有的属性
   attrs?: {
       // css样式
   style?: CSSProperties

@@ -14,8 +14,7 @@
 
 <script setup lang="ts">
 import { toLine } from '../../../utils'
-import { reactive, toRefs, ref } from "vue"
-let props = defineProps({
+defineProps({
   // 图标
   icon: {
     type: String,

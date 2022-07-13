@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, ref, onMounted } from "vue"
+import { ref, onMounted } from "vue"
 import { TableOptions } from "../../components/table/src/types";
 import axios from 'axios'
 

@@ -51,9 +51,11 @@ let props = defineProps({
 
 let emits = defineEmits(['clickItem', 'clickAction'])
 
+// 点击了列表项触发
 let clickItem = (item: ListItem, index: number) => {
   emits('clickItem', { item, index })
 }
+// 点击了操作项触发
 let clickAction = (item: ActionOptions, index: number) => {
   emits('clickAction', { item, index })
 }
